@@ -1,0 +1,24 @@
+# Virtual environment
+venv/
+.env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# IDE / editor files
+.vscode/
+.idea/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Model / data files
+*.h5
+*.pt
+*.pkl
+*.bin
+data/embeddings/
