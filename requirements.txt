@@ -3,4 +3,8 @@ sentence-transformers
 langchain
 gradio
 ollama
+nltk
+PyPDF2
+python-docx
+
 

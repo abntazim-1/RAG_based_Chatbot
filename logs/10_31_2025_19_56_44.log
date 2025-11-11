@@ -1,0 +1,6 @@
+[ 2025-10-31 19:57:40,537 ] 22 chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+[ 2025-10-31 19:57:42,054 ] 69 Chunker - INFO - Text chunked into 1 segments.
+[ 2025-10-31 19:57:42,055 ] 219 sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+[ 2025-10-31 19:57:42,055 ] 227 sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+[ 2025-10-31 19:57:49,843 ] 40 Embedder - INFO - Embedded 1 chunks in 1.14 seconds using model 'all-MiniLM-L6-v2'.
+[ 2025-10-31 19:57:50,292 ] 72 Embedder - INFO - Stored 1 embeddings in vector store.

@@ -1,0 +1,143 @@
+[ 2025-11-11 23:55:14,730 ] 281 RAGChatbot - INFO - Loading vector store from data/faiss_index.bin...
+[ 2025-11-11 23:55:14,732 ] 219 sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+[ 2025-11-11 23:55:14,732 ] 227 sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+[ 2025-11-11 23:55:18,385 ] 293 RAGChatbot - INFO - Loaded existing FAISS index with 10 documents
+[ 2025-11-11 23:55:18,386 ] 312 RAGChatbot - INFO - Initializing RAG chatbot with model: llama3.2:1b
+[ 2025-11-11 23:55:18,386 ] 315 RAGChatbot - INFO - Testing Ollama connection...
+[ 2025-11-11 23:55:20,424 ] 323 RAGChatbot - INFO - \u2705 Ollama is running and accessible
+[ 2025-11-11 23:55:20,425 ] 353 RAGChatbot - INFO - Creating Gradio interface...
+[ 2025-11-11 23:55:20,595 ] 387 RAGChatbot - WARNING - Port 8080 is already in use. Searching for alternative port...
+[ 2025-11-11 23:55:20,599 ] 390 RAGChatbot - INFO - Using alternative port: 8082
+[ 2025-11-11 23:55:20,599 ] 401 RAGChatbot - INFO - Launching Gradio server on 127.0.0.1:8082
+[ 2025-11-11 23:55:20,979 ] 1025 httpx - INFO - HTTP Request: GET http://127.0.0.1:8082/gradio_api/startup-events "HTTP/1.1 200 OK"
+[ 2025-11-11 23:55:20,999 ] 1025 httpx - INFO - HTTP Request: HEAD http://127.0.0.1:8082/ "HTTP/1.1 200 OK"
+[ 2025-11-11 23:55:21,839 ] 1025 httpx - INFO - HTTP Request: GET https://api.gradio.app/pkg-version "HTTP/1.1 200 OK"
+[ 2025-11-12 00:00:39,882 ] 78 RAGChatbot - INFO - Retrieving context for query: From which university tazim pursuing his bachelor'...
+[ 2025-11-12 00:00:39,902 ] 82 RAGChatbot - INFO - \u2705 Retrieved 5 documents for query: 'From which university tazim pursuing his bachelor's degree ?'
+[ 2025-11-12 00:00:39,902 ] 88 RAGChatbot - INFO -   \U0001f4c4 Document 1: Score=1.3368, Source=Artifacts\Urbana-Resume (1).pdf
+[ 2025-11-12 00:00:39,903 ] 89 RAGChatbot - INFO -      Preview: in Computer Science and Engineering
+University of Liberal Arts Bangladesh2022 – Present
+Major: Data Science GPA: 3.93/4.00
+Higher Secondary Certificate
+Ideal School and College, Motijheel 2019
+Group: ...
+[ 2025-11-12 00:00:39,903 ] 88 RAGChatbot - INFO -   \U0001f4c4 Document 2: Score=1.3368, Source=Artifacts\Urbana-Resume (1).pdf
+[ 2025-11-12 00:00:39,903 ] 89 RAGChatbot - INFO -      Preview: in Computer Science and Engineering
+University of Liberal Arts Bangladesh2022 – Present
+Major: Data Science GPA: 3.93/4.00
+Higher Secondary Certificate
+Ideal School and College, Motijheel 2019
+Group: ...
+[ 2025-11-12 00:00:39,903 ] 88 RAGChatbot - INFO -   \U0001f4c4 Document 3: Score=1.3627, Source=Artifacts\Abdullah Bin Noor Tazim - Machine learning Engineer.pdf
+[ 2025-11-12 00:00:39,903 ] 89 RAGChatbot - INFO -      Preview: Code
+Education
+University of Liberal Arts Bangladesh (ULAB)Feb 2022 – Present
+Bachelor of Science in Computer Science and Engineering (CSE)
+CGPA:3.48 / 4.00
+Relevant Courses:
+•Machine Learning & AI: M...
+[ 2025-11-12 00:00:39,903 ] 88 RAGChatbot - INFO -   \U0001f4c4 Document 4: Score=1.3627, Source=Artifacts\Abdullah Bin Noor Tazim - Machine learning Engineer.pdf
+[ 2025-11-12 00:00:39,903 ] 89 RAGChatbot - INFO -      Preview: Code
+Education
+University of Liberal Arts Bangladesh (ULAB)Feb 2022 – Present
+Bachelor of Science in Computer Science and Engineering (CSE)
+CGPA:3.48 / 4.00
+Relevant Courses:
+•Machine Learning & AI: M...
+[ 2025-11-12 00:00:39,903 ] 88 RAGChatbot - INFO -   \U0001f4c4 Document 5: Score=1.5169, Source=Artifacts\Abdullah Tazim-Machine learning Engineer.pdf
+[ 2025-11-12 00:00:39,903 ] 89 RAGChatbot - INFO -      Preview: Abdullah Bin Noor Tazim
+ +88018602584611 Dhaka ,Bangladesh in/abdullah-tazim-15179027a github.com/abntazim-1
+SKILLS
+Programming: Python, C 
+ML/DL: TensorFlow, Keras, Scikit-learn, CNNs, NLP, Computer ...
+[ 2025-11-12 00:00:39,903 ] 100 RAGChatbot - INFO - \u2705 Using 5 relevant documents as context (total context length: 3524 chars)
+[ 2025-11-12 00:00:39,903 ] 112 RAGChatbot - INFO - \U0001f4dd Prompt length: 3862 characters
+[ 2025-11-12 00:00:39,903 ] 114 RAGChatbot - INFO -    Context included: 3524 characters from documents
+[ 2025-11-12 00:00:39,903 ] 120 RAGChatbot - INFO - \U0001f916 Generating response with LLM...
+[ 2025-11-12 00:00:51,065 ] 138 RAGChatbot - INFO - \u2705 Response generated successfully (length: 118 chars)
+[ 2025-11-12 00:00:51,065 ] 140 RAGChatbot - INFO -    \u2705 Documents were used in generation
+[ 2025-11-12 00:01:22,374 ] 78 RAGChatbot - INFO - Retrieving context for query: Can you mentioned some of tazim's projects ?...
+[ 2025-11-12 00:01:22,386 ] 82 RAGChatbot - INFO - \u2705 Retrieved 5 documents for query: 'Can you mentioned some of tazim's projects ?'
+[ 2025-11-12 00:01:22,386 ] 88 RAGChatbot - INFO -   \U0001f4c4 Document 1: Score=1.3488, Source=Artifacts\Abdullah Tazim-Machine learning Engineer.pdf
+[ 2025-11-12 00:01:22,386 ] 89 RAGChatbot - INFO -      Preview: Abdullah Bin Noor Tazim
+ +88018602584611 Dhaka ,Bangladesh in/abdullah-tazim-15179027a github.com/abntazim-1
+SKILLS
+Programming: Python, C 
+ML/DL: TensorFlow, Keras, Scikit-learn, CNNs, NLP, Computer ...
+[ 2025-11-12 00:01:22,386 ] 88 RAGChatbot - INFO -   \U0001f4c4 Document 2: Score=1.3488, Source=Artifacts\Abdullah Tazim-Machine learning Engineer.pdf
+[ 2025-11-12 00:01:22,386 ] 89 RAGChatbot - INFO -      Preview: Abdullah Bin Noor Tazim
+ +88018602584611 Dhaka ,Bangladesh in/abdullah-tazim-15179027a github.com/abntazim-1
+SKILLS
+Programming: Python, C 
+ML/DL: TensorFlow, Keras, Scikit-learn, CNNs, NLP, Computer ...
+[ 2025-11-12 00:01:22,386 ] 88 RAGChatbot - INFO -   \U0001f4c4 Document 3: Score=1.5135, Source=Artifacts\Urbana-Resume (1).pdf
+[ 2025-11-12 00:01:22,386 ] 89 RAGChatbot - INFO -      Preview: in Computer Science and Engineering
+University of Liberal Arts Bangladesh2022 – Present
+Major: Data Science GPA: 3.93/4.00
+Higher Secondary Certificate
+Ideal School and College, Motijheel 2019
+Group: ...
+[ 2025-11-12 00:01:22,386 ] 88 RAGChatbot - INFO -   \U0001f4c4 Document 4: Score=1.5135, Source=Artifacts\Urbana-Resume (1).pdf
+[ 2025-11-12 00:01:22,386 ] 89 RAGChatbot - INFO -      Preview: in Computer Science and Engineering
+University of Liberal Arts Bangladesh2022 – Present
+Major: Data Science GPA: 3.93/4.00
+Higher Secondary Certificate
+Ideal School and College, Motijheel 2019
+Group: ...
+[ 2025-11-12 00:01:22,386 ] 88 RAGChatbot - INFO -   \U0001f4c4 Document 5: Score=1.6501, Source=Artifacts\Abdullah Bin Noor Tazim - Machine learning Engineer.pdf
+[ 2025-11-12 00:01:22,386 ] 89 RAGChatbot - INFO -      Preview: Code
+Education
+University of Liberal Arts Bangladesh (ULAB)Feb 2022 – Present
+Bachelor of Science in Computer Science and Engineering (CSE)
+CGPA:3.48 / 4.00
+Relevant Courses:
+•Machine Learning & AI: M...
+[ 2025-11-12 00:01:22,386 ] 100 RAGChatbot - INFO - \u2705 Using 5 relevant documents as context (total context length: 3748 chars)
+[ 2025-11-12 00:01:22,386 ] 112 RAGChatbot - INFO - \U0001f4dd Prompt length: 4070 characters
+[ 2025-11-12 00:01:22,386 ] 114 RAGChatbot - INFO -    Context included: 3748 characters from documents
+[ 2025-11-12 00:01:22,386 ] 120 RAGChatbot - INFO - \U0001f916 Generating response with LLM...
+[ 2025-11-12 00:01:38,969 ] 138 RAGChatbot - INFO - \u2705 Response generated successfully (length: 571 chars)
+[ 2025-11-12 00:01:38,969 ] 140 RAGChatbot - INFO -    \u2705 Documents were used in generation
+[ 2025-11-12 00:02:26,999 ] 78 RAGChatbot - INFO - Retrieving context for query: what are the experience mentioned in abdullah bin ...
+[ 2025-11-12 00:02:27,011 ] 82 RAGChatbot - INFO - \u2705 Retrieved 5 documents for query: 'what are the experience mentioned in abdullah bin noor tazim cv ?'
+[ 2025-11-12 00:02:27,011 ] 88 RAGChatbot - INFO -   \U0001f4c4 Document 1: Score=1.2815, Source=Artifacts\Abdullah Tazim-Machine learning Engineer.pdf
+[ 2025-11-12 00:02:27,011 ] 89 RAGChatbot - INFO -      Preview: Abdullah Bin Noor Tazim
+ +88018602584611 Dhaka ,Bangladesh in/abdullah-tazim-15179027a github.com/abntazim-1
+SKILLS
+Programming: Python, C 
+ML/DL: TensorFlow, Keras, Scikit-learn, CNNs, NLP, Computer ...
+[ 2025-11-12 00:02:27,011 ] 88 RAGChatbot - INFO -   \U0001f4c4 Document 2: Score=1.2815, Source=Artifacts\Abdullah Tazim-Machine learning Engineer.pdf
+[ 2025-11-12 00:02:27,011 ] 89 RAGChatbot - INFO -      Preview: Abdullah Bin Noor Tazim
+ +88018602584611 Dhaka ,Bangladesh in/abdullah-tazim-15179027a github.com/abntazim-1
+SKILLS
+Programming: Python, C 
+ML/DL: TensorFlow, Keras, Scikit-learn, CNNs, NLP, Computer ...
+[ 2025-11-12 00:02:27,011 ] 88 RAGChatbot - INFO -   \U0001f4c4 Document 3: Score=1.5451, Source=Artifacts\Abdullah Bin Noor Tazim - Machine learning Engineer.pdf
+[ 2025-11-12 00:02:27,012 ] 89 RAGChatbot - INFO -      Preview: Code
+Education
+University of Liberal Arts Bangladesh (ULAB)Feb 2022 – Present
+Bachelor of Science in Computer Science and Engineering (CSE)
+CGPA:3.48 / 4.00
+Relevant Courses:
+•Machine Learning & AI: M...
+[ 2025-11-12 00:02:27,012 ] 88 RAGChatbot - INFO -   \U0001f4c4 Document 4: Score=1.5451, Source=Artifacts\Abdullah Bin Noor Tazim - Machine learning Engineer.pdf
+[ 2025-11-12 00:02:27,012 ] 89 RAGChatbot - INFO -      Preview: Code
+Education
+University of Liberal Arts Bangladesh (ULAB)Feb 2022 – Present
+Bachelor of Science in Computer Science and Engineering (CSE)
+CGPA:3.48 / 4.00
+Relevant Courses:
+•Machine Learning & AI: M...
+[ 2025-11-12 00:02:27,012 ] 88 RAGChatbot - INFO -   \U0001f4c4 Document 5: Score=1.6107, Source=Artifacts\Urbana-Resume (1).pdf
+[ 2025-11-12 00:02:27,012 ] 89 RAGChatbot - INFO -      Preview: in Computer Science and Engineering
+University of Liberal Arts Bangladesh2022 – Present
+Major: Data Science GPA: 3.93/4.00
+Higher Secondary Certificate
+Ideal School and College, Motijheel 2019
+Group: ...
+[ 2025-11-12 00:02:27,012 ] 100 RAGChatbot - INFO - \u2705 Using 5 relevant documents as context (total context length: 3227 chars)
+[ 2025-11-12 00:02:27,012 ] 112 RAGChatbot - INFO - \U0001f4dd Prompt length: 3570 characters
+[ 2025-11-12 00:02:27,012 ] 114 RAGChatbot - INFO -    Context included: 3227 characters from documents
+[ 2025-11-12 00:02:27,012 ] 120 RAGChatbot - INFO - \U0001f916 Generating response with LLM...
+[ 2025-11-12 00:02:50,083 ] 138 RAGChatbot - INFO - \u2705 Response generated successfully (length: 1502 chars)
+[ 2025-11-12 00:02:50,083 ] 140 RAGChatbot - INFO -    \u2705 Documents were used in generation

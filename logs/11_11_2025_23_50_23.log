@@ -1,0 +1,58 @@
+[ 2025-11-11 23:50:23,248 ] 280 RAGChatbot - INFO - Loading vector store from data/faiss_index.bin...
+[ 2025-11-11 23:50:23,248 ] 219 sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+[ 2025-11-11 23:50:23,248 ] 227 sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+[ 2025-11-11 23:50:26,794 ] 292 RAGChatbot - INFO - Loaded existing FAISS index with 10 documents
+[ 2025-11-11 23:50:26,794 ] 311 RAGChatbot - INFO - Initializing RAG chatbot with model: llama2
+[ 2025-11-11 23:50:26,794 ] 321 RAGChatbot - INFO - Creating Gradio interface...
+[ 2025-11-11 23:50:26,952 ] 369 RAGChatbot - INFO - Launching Gradio server on 127.0.0.1:7860
+[ 2025-11-11 23:50:27,341 ] 1025 httpx - INFO - HTTP Request: GET http://127.0.0.1:7860/gradio_api/startup-events "HTTP/1.1 200 OK"
+[ 2025-11-11 23:50:27,355 ] 1025 httpx - INFO - HTTP Request: HEAD http://127.0.0.1:7860/ "HTTP/1.1 200 OK"
+[ 2025-11-11 23:50:28,149 ] 1025 httpx - INFO - HTTP Request: GET https://api.gradio.app/pkg-version "HTTP/1.1 200 OK"
+[ 2025-11-11 23:52:57,583 ] 77 RAGChatbot - INFO - Retrieving context for query: From which university tazim pursuing his bachelor'...
+[ 2025-11-11 23:52:57,923 ] 81 RAGChatbot - INFO - \u2705 Retrieved 3 documents for query: 'From which university tazim pursuing his bachelor's degree? 
+'
+[ 2025-11-11 23:52:57,923 ] 87 RAGChatbot - INFO -   \U0001f4c4 Document 1: Score=1.3368, Source=Artifacts\Urbana-Resume (1).pdf
+[ 2025-11-11 23:52:57,924 ] 88 RAGChatbot - INFO -      Preview: in Computer Science and Engineering
+University of Liberal Arts Bangladesh2022 – Present
+Major: Data Science GPA: 3.93/4.00
+Higher Secondary Certificate
+Ideal School and College, Motijheel 2019
+Group: ...
+[ 2025-11-11 23:52:57,924 ] 87 RAGChatbot - INFO -   \U0001f4c4 Document 2: Score=1.3368, Source=Artifacts\Urbana-Resume (1).pdf
+[ 2025-11-11 23:52:57,924 ] 88 RAGChatbot - INFO -      Preview: in Computer Science and Engineering
+University of Liberal Arts Bangladesh2022 – Present
+Major: Data Science GPA: 3.93/4.00
+Higher Secondary Certificate
+Ideal School and College, Motijheel 2019
+Group: ...
+[ 2025-11-11 23:52:57,924 ] 87 RAGChatbot - INFO -   \U0001f4c4 Document 3: Score=1.3627, Source=Artifacts\Abdullah Bin Noor Tazim - Machine learning Engineer.pdf
+[ 2025-11-11 23:52:57,924 ] 88 RAGChatbot - INFO -      Preview: Code
+Education
+University of Liberal Arts Bangladesh (ULAB)Feb 2022 – Present
+Bachelor of Science in Computer Science and Engineering (CSE)
+CGPA:3.48 / 4.00
+Relevant Courses:
+•Machine Learning & AI: M...
+[ 2025-11-11 23:52:57,924 ] 99 RAGChatbot - INFO - \u2705 Using 3 relevant documents as context (total context length: 2396 chars)
+[ 2025-11-11 23:52:57,924 ] 111 RAGChatbot - INFO - \U0001f4dd Prompt length: 2733 characters
+[ 2025-11-11 23:52:57,924 ] 113 RAGChatbot - INFO -    Context included: 2396 characters from documents
+[ 2025-11-11 23:52:57,924 ] 119 RAGChatbot - INFO - \U0001f916 Generating response with LLM...
+[ 2025-11-11 23:53:00,016 ] 108 RAGChatbot - WARNING - [OllamaClient] Attempt 1/3 failed: 404 Client Error: Not Found for url: http://localhost:11434/api/generate
+[ 2025-11-11 23:53:02,559 ] 108 RAGChatbot - WARNING - [OllamaClient] Attempt 2/3 failed: 404 Client Error: Not Found for url: http://localhost:11434/api/generate
+[ 2025-11-11 23:53:05,598 ] 108 RAGChatbot - WARNING - [OllamaClient] Attempt 3/3 failed: 404 Client Error: Not Found for url: http://localhost:11434/api/generate
+[ 2025-11-11 23:53:07,099 ] 112 RAGChatbot - ERROR - [OllamaClient] Request failed after retries: 404 Client Error: Not Found for url: http://localhost:11434/api/generate
+[ 2025-11-11 23:53:07,099 ] 147 RAGChatbot - ERROR - Error in chat: 404 Client Error: Not Found for url: http://localhost:11434/api/generate
+Traceback (most recent call last):
+  File "G:\Ongoing Project\RAG based Chatbot\scripts\run_app.py", line 120, in chat
+    response = self.llm_client.generate(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\Ongoing Project\RAG based Chatbot\src\llm\ollama_client.py", line 145, in generate
+    data = self._post("/api/generate", payload, stream=stream)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\Ongoing Project\RAG based Chatbot\src\llm\ollama_client.py", line 113, in _post
+    raise last_error
+  File "G:\Ongoing Project\RAG based Chatbot\src\llm\ollama_client.py", line 54, in _post
+    resp.raise_for_status()
+  File "G:\Ongoing Project\RAG based Chatbot\venv\Lib\site-packages\requests\models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 404 Client Error: Not Found for url: http://localhost:11434/api/generate

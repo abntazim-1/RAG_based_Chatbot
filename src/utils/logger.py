@@ -15,5 +15,8 @@ logging.basicConfig(
     level=logging.INFO,
 )
 
+# Create and export a logger instance
+logger = logging.getLogger("RAGChatbot")
+
 if __name__ == "__main__":
-    logging.info("Logging has started.")
+    logger.info("Logging has started.")

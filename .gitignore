@@ -22,3 +22,9 @@ Thumbs.db
 *.pkl
 *.bin
 data/embeddings/
+
+artifacts/
+data/
+logs/
+
+models/
