@@ -10,7 +10,7 @@ from sentence_transformers import SentenceTransformer
 # 
 from src.utils.exception import CustomException
 from src.ingest.chunker import SemanticChunker
-from src.retriever.vector_store import VectorStore
+from src.retriever.vector_store import VectorStore, FAISSVectorStore
 import logging
 logging.basicConfig(level=logging.INFO)
 
@@ -25,7 +25,15 @@ class Embedder:
             raise CustomException(e, sys)
         # Use SemanticChunker directly
         self.chunker = chunker if chunker else SemanticChunker()
-        self.vector_store = vector_store if vector_store else VectorStore()
+        # Create FAISSVectorStore with defaults if no vector_store provided
+        if vector_store is None:
+            # Default index path and use the same embedding model
+            default_index_path = "data/faiss_index.bin"
+            # Ensure data directory exists
+            os.makedirs(os.path.dirname(default_index_path), exist_ok=True)
+            self.vector_store = FAISSVectorStore(index_path=default_index_path, embedding_model=model_name)
+        else:
+            self.vector_store = vector_store
         self.logger = logging.getLogger(self.__class__.__name__)
         # Number of texts to pass to model.encode in a single call (prevents large-list memory blowups)
         self.texts_per_encode = 512

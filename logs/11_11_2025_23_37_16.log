@@ -1,4 +1,0 @@
-[ 2025-11-11 23:37:16,847 ] 253 RAGChatbot - INFO - Loading vector store from data/faiss_index.bin...
-[ 2025-11-11 23:37:16,847 ] 219 sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
-[ 2025-11-11 23:37:16,847 ] 227 sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-[ 2025-11-11 23:37:20,410 ] 274 RAGChatbot - ERROR - Index file not found at data/faiss_index.bin. Please run build_embeddings.py first to create the index.

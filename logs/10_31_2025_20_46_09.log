@@ -1,6 +1,0 @@
-[ 2025-10-31 20:47:20,438 ] 22 chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-[ 2025-10-31 20:47:21,754 ] 219 sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
-[ 2025-10-31 20:47:21,755 ] 227 sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
-[ 2025-10-31 21:17:18,423 ] 72 Chunker - ERROR - Error during text chunking: 
-[ 2025-10-31 21:17:18,748 ] 105 Chunker - ERROR - Error chunking from file: Error occurred in python script [g:\Ongoing Project\RAG based Chatbot\src\ingest\chunker.py] line number [60] error message []
-[ 2025-10-31 21:17:18,762 ] 58 Embedder - ERROR - Error embedding file g:\Ongoing Project\RAG based Chatbot\Artifacts\Monira Updated CV.pdf: Error occurred in python script [g:\Ongoing Project\RAG based Chatbot\src\ingest\chunker.py] line number [103] error message [Error occurred in python script [g:\Ongoing Project\RAG based Chatbot\src\ingest\chunker.py] line number [60] error message []]

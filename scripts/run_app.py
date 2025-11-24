@@ -15,7 +15,14 @@ from typing import List, Tuple, Optional, Dict
 # Ensure project root is on sys.path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-import gradio as gr
+# Check for required dependencies
+try:
+    import gradio as gr
+except ImportError:
+    print("❌ Error: 'gradio' module not found!")
+    print("   Please install it with: pip install gradio")
+    sys.exit(1)
+
 import logging
 import requests
 from src.retriever.retreiver import Retriever
@@ -236,8 +243,14 @@ def main():
     parser.add_argument(
         '--llm-model',
         type=str,
-        default='llama2',
+        default='llama3.2:1b',
         help='Ollama model name (e.g., llama2, gemma:2b, mistral)'
+    )
+    parser.add_argument(
+        '--ollama-host',
+        type=str,
+        default='http://localhost:11434',
+        help='Ollama server host URL (default: http://localhost:11434)'
     )
     parser.add_argument(
         '--top-k',
@@ -312,12 +325,10 @@ def main():
     logger.info(f"Initializing RAG chatbot with model: {args.llm_model}")
     
     # Test Ollama connection before proceeding
-    logger.info("Testing Ollama connection...")
+    logger.info(f"Testing Ollama connection at {args.ollama_host}...")
     try:
-        test_client = OllamaClient(model=args.llm_model)
-        # Try a simple request to check if Ollama is running
         import requests
-        test_url = f"{test_client.host}/api/tags"
+        test_url = f"{args.ollama_host.rstrip('/')}/api/tags"
         test_resp = requests.get(test_url, timeout=5)
         if test_resp.status_code == 200:
             logger.info("✅ Ollama is running and accessible")
@@ -325,21 +336,33 @@ def main():
             models = test_resp.json().get("models", [])
             model_names = [m.get("name", "") for m in models]
             if args.llm_model not in model_names:
-                logger.warning(f"⚠️  Model '{args.llm_model}' not found in Ollama.")
-                logger.warning(f"   Available models: {', '.join(model_names) if model_names else 'None'}")
-                logger.warning(f"   Install it with: ollama pull {args.llm_model}")
+                logger.error(f"❌ Model '{args.llm_model}' not found in Ollama!")
+                logger.error(f"   Available models: {', '.join(model_names) if model_names else 'None'}")
+                logger.error(f"   Install it with: ollama pull {args.llm_model}")
+                sys.exit(1)
+            else:
+                logger.info(f"✅ Model '{args.llm_model}' is available")
         else:
-            logger.warning(f"⚠️  Ollama responded with status {test_resp.status_code}")
+            logger.error(f"❌ Ollama responded with status {test_resp.status_code}")
+            logger.error(f"   Response: {test_resp.text[:200]}")
+            sys.exit(1)
     except requests.exceptions.ConnectionError:
         logger.error("❌ Cannot connect to Ollama server!")
+        logger.error(f"   Host: {args.ollama_host}")
         logger.error("   Please make sure Ollama is running:")
         logger.error("   1. Start Ollama: ollama serve")
         logger.error("   2. Or check if it's running on a different port")
         logger.error("   3. Verify with: ollama list")
+        logger.error(f"   4. Test connection: curl {args.ollama_host}/api/tags")
         sys.exit(1)
     except Exception as e:
-        logger.warning(f"⚠️  Could not verify Ollama connection: {e}")
-        logger.warning("   Continuing anyway, but you may encounter errors...")
+        logger.error(f"❌ Could not verify Ollama connection: {e}")
+        logger.error("   Please check that Ollama is running and accessible")
+        sys.exit(1)
+    
+    # Initialize chatbot with custom Ollama host
+    from src.llm.ollama_client import OllamaClient
+    ollama_client = OllamaClient(model=args.llm_model, host=args.ollama_host)
     
     chatbot = RAGChatbot(
         vector_store=vector_store,
@@ -348,6 +371,8 @@ def main():
         temperature=args.temperature,
         max_tokens=args.max_tokens
     )
+    # Override the default client with custom host
+    chatbot.llm_client = ollama_client
     
     # Create and launch Gradio interface
     logger.info("Creating Gradio interface...")

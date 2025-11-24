@@ -34,13 +34,13 @@ except (ImportError, AttributeError):
 
 
 async def build_embeddings(
-    artifacts_dir: str = "Artifacts",
+    artifacts_dir: str = "artifacts",
     index_path: str = "data/faiss_index.bin",
-    embed_model: str = "sentence-transformers/all-MiniLM-L6-v2",
+    embed_model: str = "./models/all-mpnet-base-v2",
     chunker_model_path: str = "./models/all-mpnet-base-v2",
     similarity_threshold: float = 0.75,
     max_chunk_tokens: int = 384,
-    min_chunk_tokens: int = 50,
+    min_chunk_tokens: int = 20,  # Reduced to prevent losing small but important chunks
     embed_batch_size: int = 16,
     device: str = "cpu"
 ):
@@ -118,25 +118,55 @@ async def build_embeddings(
     all_chunks = []
     chunk_metadata = []
     
+    total_input_chars = 0
+    total_output_chars = 0
+    
     for doc in documents:
+        doc_chars = len(doc.content)
+        total_input_chars += doc_chars
         chunks = chunker.chunk_text(doc.content)
+        
+        if not chunks:
+            logger.warning(f"⚠️  No chunks generated for document: {doc.source}")
+            logger.warning(f"   Document length: {doc_chars} characters, {chunker._token_count(doc.content)} tokens")
+            continue
+        
         all_chunks.extend(chunks)
-        # Create metadata for each chunk (without 'text' since texts are separate)
-        for chunk in chunks:
+        chunk_chars = sum(len(c) for c in chunks)
+        total_output_chars += chunk_chars
+        
+        # Create metadata for each chunk
+        for i, chunk in enumerate(chunks):
             chunk_metadata.append({
                 "source": doc.source,
+                "chunk_num": i,
+                "total_chunks": len(chunks),
                 **doc.metadata
             })
+        
+        logger.info(f"   📄 {Path(doc.source).name}: {len(chunks)} chunks, {doc_chars:,} → {chunk_chars:,} chars")
     
     logger.info(f"✅ Generated {len(all_chunks)} chunks from {len(documents)} document(s)")
     if all_chunks:
         avg_chunk_len = sum(len(c) for c in all_chunks) / len(all_chunks)
-        logger.info(f"   Average chunk length: {avg_chunk_len:.0f} characters")
+        avg_chunk_tokens = sum(chunker._token_count(c) for c in all_chunks) / len(all_chunks)
+        logger.info(f"   Average chunk length: {avg_chunk_len:.0f} characters, {avg_chunk_tokens:.1f} tokens")
+        logger.info(f"   Total input: {total_input_chars:,} chars → Output: {total_output_chars:,} chars")
+        logger.info(f"   Coverage: {(total_output_chars/total_input_chars*100):.1f}%")
         logger.info(f"   Sample chunk (first 150 chars): {all_chunks[0][:150]}...")
     
     if not all_chunks:
         logger.error("No chunks were generated. Exiting.")
         sys.exit(1)
+    
+    # Validate chunk sizes
+    too_small = [i for i, c in enumerate(all_chunks) if chunker._token_count(c) < min_chunk_tokens]
+    too_large = [i for i, c in enumerate(all_chunks) if chunker._token_count(c) > max_chunk_tokens * 1.5]
+    
+    if too_small:
+        logger.warning(f"⚠️  {len(too_small)} chunks are below min_tokens ({min_chunk_tokens})")
+    if too_large:
+        logger.warning(f"⚠️  {len(too_large)} chunks exceed max_tokens by 50% (>{max_chunk_tokens * 1.5})")
     
     # Step 3: Initialize vector store
     logger.info("\n" + "="*60)
@@ -165,11 +195,30 @@ async def build_embeddings(
         meta["chunk_index"] = i
         metadatas.append(meta)
     
+    # Validate before storing
+    if len(texts) != len(metadatas):
+        logger.error(f"❌ Mismatch: {len(texts)} texts but {len(metadatas)} metadatas")
+        sys.exit(1)
+    
     # Use add() which will compute embeddings and store everything
+    logger.info(f"Computing embeddings for {len(texts)} chunks...")
     vector_store.add(texts, metadatas)
     
-    logger.info(f"✅ Stored {len(texts)} chunks in vector store")
-    logger.info(f"   Vector store now has {vector_store.index.ntotal} vectors")
+    # Verify storage
+    stored_count = len(vector_store.texts)
+    index_count = vector_store.index.ntotal
+    
+    if stored_count != len(texts):
+        logger.error(f"❌ Storage mismatch: Expected {len(texts)} chunks, got {stored_count}")
+        sys.exit(1)
+    
+    if index_count != len(texts):
+        logger.error(f"❌ Index mismatch: Expected {len(texts)} vectors, got {index_count}")
+        sys.exit(1)
+    
+    logger.info(f"✅ Stored {stored_count} chunks in vector store")
+    logger.info(f"   Vector store has {index_count} vectors")
+    logger.info(f"   All chunks successfully stored and indexed")
     
     # Step 4: Save everything to disk
     logger.info("\n" + "="*60)
@@ -207,8 +256,8 @@ def main():
     parser.add_argument(
         '--artifacts-dir',
         type=str,
-        default='Artifacts',
-        help='Directory containing documents (default: Artifacts)'
+        default='artifacts',
+        help='Directory containing documents (default: artifacts)'
     )
     parser.add_argument(
         '--index-path',
@@ -243,8 +292,8 @@ def main():
     parser.add_argument(
         '--min-chunk-tokens',
         type=int,
-        default=50,
-        help='Minimum tokens per chunk (default: 50)'
+        default=20,
+        help='Minimum tokens per chunk (default: 20)'
     )
     parser.add_argument(
         '--embed-batch',

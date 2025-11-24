@@ -54,12 +54,21 @@ class OllamaClient:
                 
                 # Check for 404 specifically and provide helpful error
                 if resp.status_code == 404:
+                    # Try to get more info from the response
+                    try:
+                        error_detail = resp.json().get("error", "Unknown error")
+                    except:
+                        error_detail = resp.text[:200] if resp.text else "No error details"
+                    
                     error_msg = (
                         f"Ollama API endpoint not found: {url}\n"
+                        f"Status: {resp.status_code}\n"
+                        f"Error: {error_detail}\n\n"
                         f"This usually means:\n"
                         f"  1. Ollama is not running - Start it with: ollama serve\n"
                         f"  2. Ollama is running on a different port - Check with: ollama list\n"
-                        f"  3. The model '{payload.get('model', 'unknown')}' is not installed - Install with: ollama pull {payload.get('model', 'model-name')}"
+                        f"  3. The model '{payload.get('model', 'unknown')}' is not installed - Install with: ollama pull {payload.get('model', 'model-name')}\n"
+                        f"  4. Check if Ollama is accessible: curl {self.host}/api/tags"
                     )
                     logger.error(error_msg)
                     raise ConnectionError(error_msg)
@@ -116,13 +125,28 @@ class OllamaClient:
                 if attempt < self.max_retries:
                     time.sleep(self.retry_backoff * attempt)
                     continue
+            except requests.exceptions.ConnectionError as e:
+                last_error = e
+                if attempt == 1:
+                    # On first connection error, provide helpful diagnostics
+                    logger.error(f"❌ Cannot connect to Ollama at {self.host}")
+                    logger.error("   Please verify:")
+                    logger.error(f"   1. Ollama is running: ollama serve")
+                    logger.error(f"   2. Ollama is accessible: curl {self.host}/api/tags")
+                    logger.error(f"   3. Check if port is correct (default: 11434)")
+                logger.warning(
+                    f"[OllamaClient] Attempt {attempt}/{self.max_retries} failed: {e}"
+                )
+                if attempt < self.max_retries:
+                    time.sleep(self.retry_backoff * attempt)
             except Exception as e:
                 last_error = e
                 logger.warning(
                     f"[OllamaClient] Attempt {attempt}/{self.max_retries} failed: {e}"
                 )
-                time.sleep(self.retry_backoff * attempt)
-        logger.error(f"[OllamaClient] Request failed after retries: {last_error}")
+                if attempt < self.max_retries:
+                    time.sleep(self.retry_backoff * attempt)
+        logger.error(f"[OllamaClient] Request failed after {self.max_retries} retries: {last_error}")
         raise last_error
 
     def _parse_response(self, data: Dict[str, Any]) -> str:

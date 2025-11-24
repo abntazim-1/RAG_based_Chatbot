@@ -1,8 +1,0 @@
-[ 2025-11-11 23:13:42,018 ] 244 RAGChatbot - INFO - Loading vector store from data/faiss_index.bin...
-[ 2025-11-11 23:13:42,018 ] 219 sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
-[ 2025-11-11 23:13:42,018 ] 227 sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-[ 2025-11-11 23:13:45,604 ] 256 RAGChatbot - WARNING - Index file not found at data/faiss_index.bin. Please run build_embeddings.py first to create the index.
-[ 2025-11-11 23:13:45,604 ] 265 RAGChatbot - INFO - Initializing RAG chatbot with model: llama3.2:1b
-[ 2025-11-11 23:13:45,604 ] 275 RAGChatbot - INFO - Creating Gradio interface...
-[ 2025-11-11 23:13:45,741 ] 278 RAGChatbot - INFO - Launching Gradio server on 127.0.0.1:8080
-[ 2025-11-11 23:13:46,930 ] 1025 httpx - INFO - HTTP Request: GET https://api.gradio.app/pkg-version "HTTP/1.1 200 OK"

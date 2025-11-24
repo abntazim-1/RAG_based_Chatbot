@@ -58,18 +58,18 @@ except Exception:
 
 
 # # Simple text splitter (can be replaced/injected by caller)
-# def default_text_splitter(text: str, chunk_size: int = 1024, overlap: int = 128) -> List[str]:
-#     if len(text) <= chunk_size:
-#         return [text]
-#     chunks = []
-#     start = 0
-#     while start < len(text):
-#         end = min(start + chunk_size, len(text))
-#         chunks.append(text[start:end])
-#         start = max(end - overlap, end)
-#         if start == end and end >= len(text):
-#             break
-#     return chunks
+def default_text_splitter(text: str, chunk_size: int = 1024, overlap: int = 128) -> List[str]:
+    if len(text) <= chunk_size:
+        return [text]
+    chunks = []
+    start = 0
+    while start < len(text):
+        end = min(start + chunk_size, len(text))
+        chunks.append(text[start:end])
+        start = max(end - overlap, end)
+        if start == end and end >= len(text):
+            break
+    return chunks
 
 
 @dataclass
@@ -243,37 +243,38 @@ class DocumentLoader:
 # Small utility to convert Documents into text chunks for RAG
 async def document_load(loader: DocumentLoader, paths: Iterable[str], chunk_size: int = 1024, overlap: int = 128) -> List[Tuple[str, str, Dict[str, str]]]:
     docs = await loader.load(paths)
-    # out: List[Tuple[str, str, Dict[str, str]]] = []
-    # for d in docs:
-    #     chunks = default_text_splitter(d.content, chunk_size=chunk_size, overlap=overlap)
-    #     for i, c in enumerate(chunks):
-    #         meta = dict(d.metadata)
-    #         meta.update({"chunk_index": str(i)})
-    #         out.append((d.source, c, meta))
-    return docs 
+    out: List[Tuple[str, str, Dict[str, str]]] = []
+    for d in docs:
+        chunks = default_text_splitter(d.content, chunk_size=chunk_size, overlap=overlap)
+        for i, c in enumerate(chunks):
+            meta = dict(d.metadata)
+            meta.update({"chunk_index": str(i)})
+            out.append((d.source, c, meta))
+    return out 
 
 
 # Example usage / minimal test --------------------------------
-# if __name__ == "__main__":
-#     import argparse
+if __name__ == "__main__":
+    import argparse
 
-#     parser = argparse.ArgumentParser(description="Load documents for RAG pipelines")
-#     parser.add_argument('paths', nargs='+', help='Files or directories to load')
-#     parser.add_argument('--chunk', type=int, default=1024)
-#     parser.add_argument('--overlap', type=int, default=128)
-#     args = parser.parse_args()
+    parser = argparse.ArgumentParser(description="Load documents for RAG pipelines")
+    parser.add_argument('paths', nargs='*', default=['artifacts/'], help='Files or directories to load (default: artifacts/)')
+    parser.add_argument('--chunk', type=int, default=1024)
+    parser.add_argument('--overlap', type=int, default=128)
+    args = parser.parse_args()
 
-#     async def main():
-#         loader = DocumentLoader()
-#         # Example: register custom handler (demonstration)
-#         # loader.register_handler('.foo', lambda p: [Document(source=str(p), content='custom', metadata={})])
-#         items = await load_and_split(loader, args.paths, chunk_size=args.chunk, overlap=args.overlap)
-#         print(f'Loaded {len(items)} chunks from {len(args.paths)} input paths')
-#         # print first 3 chunks
-#         for src, txt, meta in items[:3]:
-#             print('---')
-#             print('source:', src)
-#             print('meta:', meta)
-#             print('text:', (txt[:300] + '...') if len(txt) > 300 else txt)
+    async def main():
+        loader = DocumentLoader()
+        # Example: register custom handler (demonstration)
+        # loader.register_handler('.foo', lambda p: [Document(source=str(p), content='custom', metadata={})])
+        items = await document_load(loader, args.paths, chunk_size=args.chunk, overlap=args.overlap)
+        # chunks = default_text_splitter(d.content, chunk_size=args.chunk, overlap=args.overlap)
+        print(f'Loaded {len(items)} chunks from {len(args.paths)} input paths')
+        # print first 3 chunks
+        for src, txt, meta in items[:3]:
+            print('---')
+            print('source:', src)
+            print('meta:', meta)
+            print('text:', (txt[:300] + '...') if len(txt) > 300 else txt)
 
-#     asyncio.run(main())
+    asyncio.run(main())

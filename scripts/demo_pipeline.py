@@ -19,7 +19,7 @@ async def load_docs(paths: List[str]) -> List[Document]:
 
 async def main():
     parser = argparse.ArgumentParser(description="Demo: loader -> semantic chunker -> embedder pipeline")
-    parser.add_argument('paths', nargs='+', help='Files or directories to load')
+    parser.add_argument('paths', nargs='*', default=['artifacts/'], help='Files or directories to load (default: artifacts/)')
     parser.add_argument('--model-path', type=str, default="./models/all-mpnet-base-v2", help='Local model dir for SemanticChunker')
     parser.add_argument('--sim-threshold', type=float, default=0.75, help='Sentence adjacency similarity threshold')
     parser.add_argument('--max-chunk-tokens', type=int, default=384, help='Max words per chunk (approx)')

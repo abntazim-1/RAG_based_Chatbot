@@ -1,6 +1,0 @@
-[ 2025-10-31 21:24:04,918 ] 22 chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-[ 2025-10-31 21:24:06,212 ] 219 sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
-[ 2025-10-31 21:24:06,212 ] 227 sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
-[ 2025-10-31 21:53:56,504 ] 82 Chunker - ERROR - MemoryError while appending chunk; returning partial results.
-[ 2025-10-31 22:08:18,531 ] 46 Embedder - ERROR - Error embedding text: 
-[ 2025-10-31 22:08:18,570 ] 58 Embedder - ERROR - Error embedding file g:\Ongoing Project\RAG based Chatbot\Artifacts\Monira Updated CV.pdf: Error occurred in python script [g:\Ongoing Project\RAG based Chatbot\src\ingest\embedder.py] line number [33] error message []
