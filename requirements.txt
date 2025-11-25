@@ -3,8 +3,11 @@ sentence-transformers
 langchain
 gradio
 ollama
+openai
 nltk
 PyPDF2
 python-docx
+faiss-cpu
+scikit-learn
 
 

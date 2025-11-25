@@ -15,16 +15,11 @@ __pycache__/
 # OS-specific
 .DS_Store
 Thumbs.db
-
-# Model / data files
-*.h5
-*.pt
-*.pkl
-*.bin
-data/embeddings/
-
-artifacts/
-data/
-logs/
-
 models/
+data/
+artifacts/
+
+
+logs/
+.env
+notebooks/
